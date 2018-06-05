@@ -72,9 +72,10 @@ model = glm.mat4(1)
 view = glm.mat4(1)
 projection = glm.perspective(glm.radians(45),800/600,0.1,1000.0)
 
-def glize(node,x,y,z):
+def glize(node,translateX,translateY,translateZ,scaleX,scaleY,scaleZ):
   model = node.transformation.astype(numpy.float32)
-  model = glm.translate(glm.mat4(model.tolist()),glm.vec3(x,y,z))
+  model = glm.scale(glm.mat4(model.tolist()),glm.vec3(translateX,translateY,translateZ))
+  model = glm.translate(glm.mat4(model.tolist()),glm.vec3(translateX,translateY,translateZ))
   for mesh in node.meshes:
     
     material = dict(mesh.material.properties.items())
@@ -138,7 +139,7 @@ def glize(node,x,y,z):
     glDrawElements(GL_TRIANGLES, len(faces), GL_UNSIGNED_INT, None)
   
   for child in node.children:
-    glize(child,x,y,z)
+    glize(child,translateX,translateY,translateZ,scaleX,scaleY,scaleZ)
 
 camera = glm.vec3(0,0,200)
 camera_speed = 50
@@ -167,16 +168,16 @@ while not done:
   view = glm.lookAt(camera, glm.vec3(0,0,0), glm.vec3(0,1,0))
 
   sun = pyassimp.load('./modifiedSun.obj')
-  glize(sun.rootnode,0,0,100)
+  glize(sun.rootnode,-10,0,100, 5, 5, 5)
 
   earth = pyassimp.load('./modifiedEarth.obj')
-  glize(earth.rootnode,50,0,100)
+  glize(earth.rootnode,10,0,100, 5, 5, 5)
 
   moon = pyassimp.load('./modifiedMoon.obj')
-  glize(moon.rootnode,100,0,100)
+  glize(moon.rootnode,15,0,100, 5, 5, 5)
 
   simpleShip = pyassimp.load('./modifiedSimpleShip.obj')
-  glize(simpleShip.rootnode,75,0,100)
+  glize(simpleShip.rootnode,0,0,100, 1, 1, 1)
 
   done = process_input()
   clock.tick(15)
