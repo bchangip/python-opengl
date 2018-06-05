@@ -74,8 +74,8 @@ projection = glm.perspective(glm.radians(45),800/600,0.1,1000.0)
 
 def glize(node,translateX,translateY,translateZ,scaleX,scaleY,scaleZ):
   model = node.transformation.astype(numpy.float32)
-  model = glm.scale(glm.mat4(model.tolist()),glm.vec3(scaleX,scaleY,scaleZ))
-  model = model.transformation.astype(numpy.float32)
+  # model = glm.scale(glm.mat4(model.tolist()),glm.vec3(scaleX,scaleY,scaleZ))
+  # model = model.transformation.astype(numpy.float32)
   model = glm.translate(glm.mat4(model.tolist()),glm.vec3(translateX,translateY,translateZ))
   for mesh in node.meshes:
     
